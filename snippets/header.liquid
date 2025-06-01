@@ -1,0 +1,88 @@
+<header style="font-family: sans-serif; background: #fff; border-bottom: 1px solid #eee;">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;">
+
+    <!-- Logo -->
+    <a href="/" style="font-weight: bold; font-size: 1.25rem; color: #000; text-decoration: none;">DeinShop</a>
+
+    <!-- Navigation -->
+    <nav style="display: flex; gap: 2rem; position: relative;">
+      <div class="nav-item" style="position: relative;">
+        <a href="/collections/damen" class="nav-link">Damen</a>
+        <div class="dropdown">
+          <a href="/collections/damen-kleider">Kleider</a>
+          <a href="/collections/damen-oberteile">Oberteile</a>
+          <a href="/collections/damen-accessoires">Accessoires</a>
+        </div>
+      </div>
+      <div class="nav-item" style="position: relative;">
+        <a href="/collections/herren" class="nav-link">Herren</a>
+        <div class="dropdown">
+          <a href="/collections/herren-shirts">Shirts</a>
+          <a href="/collections/herren-hosen">Hosen</a>
+          <a href="/collections/herren-accessoires">Accessoires</a>
+        </div>
+      </div>
+      <a href="/pages/about" class="nav-link">Über uns</a>
+      <a href="/pages/contact" class="nav-link">Kontakt</a>
+    </nav>
+
+    <!-- Icons -->
+    <div style="display: flex; gap: 1.5rem; font-size: 1.2rem;">
+      <a href="/search" title="Suche" style="color: #000;">🔍</a>
+      <a href="/cart" title="Warenkorb" style="color: #000;">🛒</a>
+    </div>
+  </div>
+
+  <style>
+    .nav-link {
+      color: #000;
+      text-decoration: none;
+      position: relative;
+      padding: 0.25rem 0;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0%;
+      background-color: #ff4f5a; /* Akzentfarbe */
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 2rem;
+      left: 0;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+      min-width: 160px;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 0.5rem;
+      color: #000;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .dropdown a:hover {
+      background: #f7f7f7;
+    }
+
+    .nav-item:hover .dropdown {
+      display: block;
+    }
+  </style>
+</header>
