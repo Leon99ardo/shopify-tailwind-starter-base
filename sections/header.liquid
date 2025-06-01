@@ -1,138 +1,82 @@
 <header class="site-header animated-header">
-  <!-- Announcement Bar -->
   <div class="announcement-bar">
-    <p>Free shipping on orders over $100 | Use code: FREESHIP</p>
+    <p>Free shipping on all fashion orders this week ✨</p>
   </div>
 
-  <!-- Mobile Menu Toggle -->
   <div class="mobile-menu-toggle" onclick="document.body.classList.toggle('menu-open')">
     <span class="menu-icon">☰</span>
   </div>
 
-  <!-- Mobile Navigation -->
   <nav class="mobile-nav">
     <ul>
-      {% assign navigationItems = 'New Arrivals,Women,Men,Sale' | split: ',' %}
-      {% for nav in navigationItems %}
+      {% assign navItems = 'Home,Women,Men,Sale,About' | split: ',' %}
+      {% for nav in navItems %}
         <li><a href="/collections/{{ nav | handle }}">{{ nav }}</a></li>
       {% endfor %}
-      <li><a href="/search">Search</a></li>
-      <li><a href="/account">Account</a></li>
+      <li><a href="/account">Login</a></li>
       <li><a href="/cart">Cart</a></li>
     </ul>
   </nav>
 
   <div class="header-wrapper">
-    <div class="header-inner">
-      <!-- Logo -->
-      <div class="site-logo">
-        <a href="/" class="logo-link">MODERN</a>
-      </div>
+    <!-- Logo -->
+    <div class="site-logo">
+      <a href="/" class="logo-link">FASHIONED</a>
+    </div>
 
-      <!-- Navigation -->
-      <nav class="main-nav">
-        {% assign navigationItems = 
-          'New Arrivals,Women,Men,Sale' | split: ',' %}
+    <!-- Main Navigation -->
+    <nav class="main-nav">
+      {% assign categories = 'Women,Men,Accessories,Sale' | split: ',' %}
+      {% for cat in categories %}
+        <div class="nav-item">
+          <a href="/collections/{{ cat | handle }}" class="nav-link">{{ cat }}</a>
+        </div>
+      {% endfor %}
+    </nav>
 
-        {% for nav in navigationItems %}
-          <div class="nav-item">
-            <a href="/collections/{{ nav | handle }}" class="nav-link">{{ nav }}</a>
-          </div>
-        {% endfor %}
-      </nav>
+    <!-- Right Side Links -->
+    <div class="header-actions">
+      <a href="/account" class="header-link">Anmelden</a>
+      <a href="/cart" class="header-link">Warenkorb</a>
     </div>
   </div>
 
   <style>
-    body.menu-open .mobile-nav {
-      max-height: 300px;
-      opacity: 1;
-    }
     .site-header {
-      background: white;
+      background: #fff;
       position: fixed;
-      width: 100%;
       top: 0;
-      z-index: 100;
-      border-bottom: 1px solid #eee;
-      transition: all 0.3s ease-in-out;
+      width: 100%;
+      z-index: 1000;
+      border-bottom: 1px solid #eaeaea;
+      animation: slideDown 0.5s ease-out;
       font-family: sans-serif;
     }
-    .site-header.animated-header {
-      animation: fadeSlideDown 0.6s ease-out;
-    }
-    @keyframes fadeSlideDown {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
     .announcement-bar {
-      background: black;
-      color: white;
+      background: #000;
+      color: #fff;
       text-align: center;
-      padding: 0.5rem;
-      font-size: 0.875rem;
-    }
-    .mobile-menu-toggle {
-      display: none;
-      cursor: pointer;
-      padding: 0.75rem;
-    }
-    .menu-icon {
-      font-size: 1.5rem;
-    }
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-      max-height: 0;
-      background: white;
-      transition: all 0.3s ease-in-out;
-      opacity: 0;
-    }
-    .mobile-nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 1rem;
-    }
-    .mobile-nav li a {
-      display: block;
-      padding: 0.5rem 0;
-      color: black;
-      text-decoration: none;
-      border-bottom: 1px solid #eee;
-      font-size: 1rem;
-    }
-    @media (max-width: 768px) {
-      .main-nav {
-        display: none;
-      }
-      .mobile-menu-toggle {
-        display: block;
-      }
-      .mobile-nav {
-        display: flex;
-      }
+      font-size: 0.9rem;
+      padding: 0.4rem;
     }
     .header-wrapper {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 1rem;
     }
     .site-logo .logo-link {
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       font-weight: bold;
-      color: black;
       text-decoration: none;
-      transition: transform 0.3s ease;
+      color: #000;
+      transition: transform 0.3s;
     }
     .site-logo .logo-link:hover {
       transform: scale(1.05);
@@ -142,26 +86,79 @@
       gap: 2rem;
     }
     .nav-link {
-      color: black;
       text-decoration: none;
+      color: #000;
       position: relative;
-      padding: 0.5rem;
-      font-size: 0.95rem;
       font-weight: 500;
-      transition: color 0.3s ease;
+      transition: color 0.3s;
     }
     .nav-link::after {
-      content: "";
+      content: '';
       position: absolute;
+      bottom: -4px;
       left: 0;
-      bottom: 0;
+      width: 0;
       height: 2px;
-      width: 0%;
-      background-color: black;
-      transition: width 0.3s ease;
+      background-color: #000;
+      transition: width 0.3s;
     }
     .nav-link:hover::after {
       width: 100%;
+    }
+    .header-actions {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .header-link {
+      color: #000;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s;
+    }
+    .header-link:hover {
+      color: #555;
+    }
+    .mobile-menu-toggle {
+      display: none;
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      font-size: 1.5rem;
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 0;
+      background: white;
+      transition: max-height 0.3s ease-in-out, opacity 0.3s;
+      opacity: 0;
+    }
+    .mobile-nav ul {
+      list-style: none;
+      padding: 1rem;
+      margin: 0;
+    }
+    .mobile-nav li a {
+      display: block;
+      padding: 0.5rem 0;
+      color: #000;
+      text-decoration: none;
+      border-bottom: 1px solid #eee;
+    }
+    body.menu-open .mobile-nav {
+      display: flex;
+      max-height: 400px;
+      opacity: 1;
+    }
+    @media (max-width: 768px) {
+      .main-nav,
+      .header-actions {
+        display: none;
+      }
+      .mobile-menu-toggle {
+        display: block;
+      }
     }
   </style>
 </header>
