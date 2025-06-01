@@ -1,88 +1,289 @@
-<header style="font-family: sans-serif; background: #fff; border-bottom: 1px solid #eee;">
-  <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;">
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ShoppingBag, Search, User, Menu, X, Heart, ChevronDown } from "lucide-react";
 
-    <!-- Logo -->
-    <a href="/" style="font-weight: bold; font-size: 1.25rem; color: #000; text-decoration: none;">DeinShop</a>
+const Header = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(2);
 
-    <!-- Navigation -->
-    <nav style="display: flex; gap: 2rem; position: relative;">
-      <div class="nav-item" style="position: relative;">
-        <a href="/collections/damen" class="nav-link">Damen</a>
-        <div class="dropdown">
-          <a href="/collections/damen-kleider">Kleider</a>
-          <a href="/collections/damen-oberteile">Oberteile</a>
-          <a href="/collections/damen-accessoires">Accessoires</a>
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navigationItems = [
+    {
+      name: 'New Arrivals',
+      href: '/collections/new-arrivals',
+      submenu: [
+        { name: 'Latest Drops', href: '/collections/latest' },
+        { name: 'Pre-Order', href: '/collections/pre-order' },
+        { name: 'Trending', href: '/collections/trending' }
+      ]
+    },
+    {
+      name: 'Women',
+      href: '/collections/women',
+      submenu: [
+        { name: 'Dresses', href: '/collections/women-dresses' },
+        { name: 'Tops', href: '/collections/women-tops' },
+        { name: 'Bottoms', href: '/collections/women-bottoms' },
+        { name: 'Outerwear', href: '/collections/women-outerwear' },
+        { name: 'Accessories', href: '/collections/women-accessories' }
+      ]
+    },
+    {
+      name: 'Men',
+      href: '/collections/men',
+      submenu: [
+        { name: 'Shirts', href: '/collections/men-shirts' },
+        { name: 'Pants', href: '/collections/men-pants' },
+        { name: 'Jackets', href: '/collections/men-jackets' },
+        { name: 'Accessories', href: '/collections/men-accessories' }
+      ]
+    },
+    {
+      name: 'Sale',
+      href: '/collections/sale',
+      submenu: [
+        { name: 'Up to 50% Off', href: '/collections/sale-50' },
+        { name: 'Final Sale', href: '/collections/final-sale' },
+        { name: 'Clearance', href: '/collections/clearance' }
+      ]
+    }
+  ];
+
+  const handleCartClick = () => {
+    // Shopify cart drawer functionality
+    window.location.href = '/cart';
+  };
+
+  const handleAccountClick = () => {
+    // Shopify account page
+    window.location.href = '/account';
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const query = formData.get('q');
+    if (query) {
+      window.location.href = `/search?q=${encodeURIComponent(query as string)}`;
+    }
+  };
+
+  return (
+    <header 
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100' 
+          : 'bg-transparent'
+      }`}
+    >
+      {/* Announcement Bar */}
+      <div className="bg-black text-white text-center py-2 text-sm">
+        <p>Free shipping on orders over $100 | Use code: FREESHIP</p>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
+          {/* Logo */}
+          <div className="flex items-center">
+            <a 
+              href="/" 
+              className="text-2xl font-bold tracking-tight transform hover:scale-105 transition-transform duration-200"
+            >
+              MODERN
+            </a>
+          </div>
+          
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex space-x-8">
+            {navigationItems.map((item) => (
+              <div key={item.name} className="relative group">
+                <a 
+                  href={item.href} 
+                  className="flex items-center text-gray-700 hover:text-black transition-colors duration-300 group"
+                >
+                  {item.name}
+                  <ChevronDown className="ml-1 h-4 w-4 transition-transform group-hover:rotate-180" />
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                
+                {/* Dropdown Menu */}
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white shadow-lg border border-gray-100 rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <div className="py-2">
+                    {item.submenu.map((subItem) => (
+                      <a
+                        key={subItem.name}
+                        href={subItem.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-black transition-colors"
+                      >
+                        {subItem.name}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </nav>
+
+          {/* Search Bar (Desktop) */}
+          <div className={`hidden md:flex transition-all duration-300 ${isSearchOpen ? 'w-64' : 'w-0'} overflow-hidden`}>
+            <form onSubmit={handleSearchSubmit} className="flex w-full">
+              <Input 
+                type="search"
+                name="q"
+                placeholder="Search products..."
+                className="rounded-r-none border-r-0 focus:ring-0 focus:border-gray-300"
+                autoFocus={isSearchOpen}
+              />
+              <Button 
+                type="submit"
+                variant="outline" 
+                className="rounded-l-none border-l-0"
+              >
+                <Search className="h-4 w-4" />
+              </Button>
+            </form>
+          </div>
+
+          {/* Action Icons */}
+          <div className="flex items-center space-x-2">
+            {/* Search Toggle */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hidden md:flex hover:bg-gray-100 transition-all duration-200 hover:scale-110"
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+            >
+              <Search className="h-5 w-5" />
+            </Button>
+
+            {/* Wishlist */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hover:bg-gray-100 transition-all duration-200 hover:scale-110"
+              onClick={() => window.location.href = '/pages/wishlist'}
+            >
+              <Heart className="h-5 w-5" />
+            </Button>
+
+            {/* Account */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hover:bg-gray-100 transition-all duration-200 hover:scale-110"
+              onClick={handleAccountClick}
+            >
+              <User className="h-5 w-5" />
+            </Button>
+
+            {/* Cart */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hover:bg-gray-100 transition-all duration-200 hover:scale-110 relative"
+              onClick={handleCartClick}
+            >
+              <ShoppingBag className="h-5 w-5" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center animate-pulse">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
+
+            {/* Mobile Menu Button */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="lg:hidden hover:bg-gray-100 transition-all duration-200"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </Button>
+          </div>
+        </div>
+
+        {/* Mobile Search */}
+        <div className="md:hidden pb-4">
+          <form onSubmit={handleSearchSubmit}>
+            <Input 
+              type="search"
+              name="q"
+              placeholder="Search products..."
+              className="w-full"
+            />
+          </form>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className={`lg:hidden transition-all duration-300 overflow-hidden ${
+          isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <nav className="py-4 space-y-4 border-t border-gray-100">
+            {navigationItems.map((item) => (
+              <div key={item.name}>
+                <a 
+                  href={item.href} 
+                  className="block text-gray-700 hover:text-black transition-colors duration-200 py-2 font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.name}
+                </a>
+                <div className="ml-4 space-y-2">
+                  {item.submenu.map((subItem) => (
+                    <a
+                      key={subItem.name}
+                      href={subItem.href}
+                      className="block text-sm text-gray-600 hover:text-black transition-colors py-1"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {subItem.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Mobile Account Links */}
+            <div className="border-t border-gray-100 pt-4 space-y-2">
+              <a 
+                href="/account" 
+                className="block text-gray-700 hover:text-black transition-colors py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                My Account
+              </a>
+              <a 
+                href="/pages/wishlist" 
+                className="block text-gray-700 hover:text-black transition-colors py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Wishlist
+              </a>
+              <a 
+                href="/cart" 
+                className="block text-gray-700 hover:text-black transition-colors py-2"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Cart ({cartCount})
+              </a>
+            </div>
+          </nav>
         </div>
       </div>
-      <div class="nav-item" style="position: relative;">
-        <a href="/collections/herren" class="nav-link">Herren</a>
-        <div class="dropdown">
-          <a href="/collections/herren-shirts">Shirts</a>
-          <a href="/collections/herren-hosen">Hosen</a>
-          <a href="/collections/herren-accessoires">Accessoires</a>
-        </div>
-      </div>
-      <a href="/pages/about" class="nav-link">Über uns</a>
-      <a href="/pages/contact" class="nav-link">Kontakt</a>
-    </nav>
+    </header>
+  );
+};
 
-    <!-- Icons -->
-    <div style="display: flex; gap: 1.5rem; font-size: 1.2rem;">
-      <a href="/search" title="Suche" style="color: #000;">🔍</a>
-      <a href="/cart" title="Warenkorb" style="color: #000;">🛒</a>
-    </div>
-  </div>
-
-  <style>
-    .nav-link {
-      color: #000;
-      text-decoration: none;
-      position: relative;
-      padding: 0.25rem 0;
-    }
-
-    .nav-link::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      height: 2px;
-      width: 0%;
-      background-color: #ff4f5a; /* Akzentfarbe */
-      transition: width 0.3s ease;
-    }
-
-    .nav-link:hover::after {
-      width: 100%;
-    }
-
-    .dropdown {
-      display: none;
-      position: absolute;
-      top: 2rem;
-      left: 0;
-      background: #fff;
-      border: 1px solid #ddd;
-      padding: 0.5rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      z-index: 1000;
-      min-width: 160px;
-    }
-
-    .dropdown a {
-      display: block;
-      padding: 0.5rem;
-      color: #000;
-      text-decoration: none;
-      font-size: 0.95rem;
-    }
-
-    .dropdown a:hover {
-      background: #f7f7f7;
-    }
-
-    .nav-item:hover .dropdown {
-      display: block;
-    }
-  </style>
-</header>
+export default Header;
