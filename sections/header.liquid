@@ -1,164 +1,88 @@
-<header class="site-header animated-header">
-  <div class="announcement-bar">
-    <p>Free shipping on all fashion orders this week ✨</p>
-  </div>
+<header style="font-family: sans-serif; background: #fff; border-bottom: 1px solid #eee;">
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem;">
 
-  <div class="mobile-menu-toggle" onclick="document.body.classList.toggle('menu-open')">
-    <span class="menu-icon">☰</span>
-  </div>
-
-  <nav class="mobile-nav">
-    <ul>
-      {% assign navItems = 'Home,Women,Men,Sale,About' | split: ',' %}
-      {% for nav in navItems %}
-        <li><a href="/collections/{{ nav | handle }}">{{ nav }}</a></li>
-      {% endfor %}
-      <li><a href="/account">Login</a></li>
-      <li><a href="/cart">Cart</a></li>
-    </ul>
-  </nav>
-
-  <div class="header-wrapper">
     <!-- Logo -->
-    <div class="site-logo">
-      <a href="/" class="logo-link">FASHIONED</a>
-    </div>
+    <a href="/" style="font-weight: bold; font-size: 1.25rem; color: #000; text-decoration: none;">DeinShop</a>
 
-    <!-- Main Navigation -->
-    <nav class="main-nav">
-      {% assign categories = 'Women,Men,Accessories,Sale' | split: ',' %}
-      {% for cat in categories %}
-        <div class="nav-item">
-          <a href="/collections/{{ cat | handle }}" class="nav-link">{{ cat }}</a>
+    <!-- Navigation -->
+    <nav style="display: flex; gap: 2rem; position: relative;">
+      <div class="nav-item" style="position: relative;">
+        <a href="/collections/damen" class="nav-link">Damen</a>
+        <div class="dropdown">
+          <a href="/collections/damen-kleider">Kleider</a>
+          <a href="/collections/damen-oberteile">Oberteile</a>
+          <a href="/collections/damen-accessoires">Accessoires</a>
         </div>
-      {% endfor %}
+      </div>
+      <div class="nav-item" style="position: relative;">
+        <a href="/collections/herren" class="nav-link">Herren</a>
+        <div class="dropdown">
+          <a href="/collections/herren-shirts">Shirts</a>
+          <a href="/collections/herren-hosen">Hosen</a>
+          <a href="/collections/herren-accessoires">Accessoires</a>
+        </div>
+      </div>
+      <a href="/pages/about" class="nav-link">Über uns</a>
+      <a href="/pages/contact" class="nav-link">Kontakt</a>
     </nav>
 
-    <!-- Right Side Links -->
-    <div class="header-actions">
-      <a href="/account" class="header-link">Anmelden</a>
-      <a href="/cart" class="header-link">Warenkorb</a>
+    <!-- Icons -->
+    <div style="display: flex; gap: 1.5rem; font-size: 1.2rem;">
+      <a href="/search" title="Suche" style="color: #000;">🔍</a>
+      <a href="/cart" title="Warenkorb" style="color: #000;">🛒</a>
     </div>
   </div>
 
   <style>
-    .site-header {
-      background: #fff;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      border-bottom: 1px solid #eaeaea;
-      animation: slideDown 0.5s ease-out;
-      font-family: sans-serif;
-    }
-    @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    .announcement-bar {
-      background: #000;
-      color: #fff;
-      text-align: center;
-      font-size: 0.9rem;
-      padding: 0.4rem;
-    }
-    .header-wrapper {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-    }
-    .site-logo .logo-link {
-      font-size: 1.8rem;
-      font-weight: bold;
-      text-decoration: none;
-      color: #000;
-      transition: transform 0.3s;
-    }
-    .site-logo .logo-link:hover {
-      transform: scale(1.05);
-    }
-    .main-nav {
-      display: flex;
-      gap: 2rem;
-    }
     .nav-link {
-      text-decoration: none;
       color: #000;
+      text-decoration: none;
       position: relative;
-      font-weight: 500;
-      transition: color 0.3s;
+      padding: 0.25rem 0;
     }
+
     .nav-link::after {
-      content: '';
+      content: "";
       position: absolute;
-      bottom: -4px;
       left: 0;
-      width: 0;
+      bottom: 0;
       height: 2px;
-      background-color: #000;
-      transition: width 0.3s;
+      width: 0%;
+      background-color: #ff4f5a; /* Akzentfarbe */
+      transition: width 0.3s ease;
     }
+
     .nav-link:hover::after {
       width: 100%;
     }
-    .header-actions {
-      display: flex;
-      gap: 1.5rem;
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 2rem;
+      left: 0;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      z-index: 1000;
+      min-width: 160px;
     }
-    .header-link {
+
+    .dropdown a {
+      display: block;
+      padding: 0.5rem;
       color: #000;
       text-decoration: none;
       font-size: 0.95rem;
-      transition: color 0.3s;
     }
-    .header-link:hover {
-      color: #555;
+
+    .dropdown a:hover {
+      background: #f7f7f7;
     }
-    .mobile-menu-toggle {
-      display: none;
-      position: absolute;
-      top: 1.2rem;
-      right: 1.2rem;
-      font-size: 1.5rem;
-    }
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-      max-height: 0;
-      background: white;
-      transition: max-height 0.3s ease-in-out, opacity 0.3s;
-      opacity: 0;
-    }
-    .mobile-nav ul {
-      list-style: none;
-      padding: 1rem;
-      margin: 0;
-    }
-    .mobile-nav li a {
+
+    .nav-item:hover .dropdown {
       display: block;
-      padding: 0.5rem 0;
-      color: #000;
-      text-decoration: none;
-      border-bottom: 1px solid #eee;
-    }
-    body.menu-open .mobile-nav {
-      display: flex;
-      max-height: 400px;
-      opacity: 1;
-    }
-    @media (max-width: 768px) {
-      .main-nav,
-      .header-actions {
-        display: none;
-      }
-      .mobile-menu-toggle {
-        display: block;
-      }
     }
   </style>
 </header>
