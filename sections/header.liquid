@@ -4,6 +4,24 @@
     <p>Free shipping on orders over $100 | Use code: FREESHIP</p>
   </div>
 
+  <!-- Mobile Menu Toggle -->
+  <div class="mobile-menu-toggle" onclick="document.body.classList.toggle('menu-open')">
+    <span class="menu-icon">☰</span>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <nav class="mobile-nav">
+    <ul>
+      {% assign navigationItems = 'New Arrivals,Women,Men,Sale' | split: ',' %}
+      {% for nav in navigationItems %}
+        <li><a href="/collections/{{ nav | handle }}">{{ nav }}</a></li>
+      {% endfor %}
+      <li><a href="/search">Search</a></li>
+      <li><a href="/account">Account</a></li>
+      <li><a href="/cart">Cart</a></li>
+    </ul>
+  </nav>
+
   <div class="header-wrapper">
     <div class="header-inner">
       <!-- Logo -->
@@ -70,6 +88,10 @@
   </div>
 
   <style>
+    body.menu-open .mobile-nav {
+      max-height: 300px;
+      opacity: 1;
+    }
     .site-header {
       background: white;
       position: fixed;
@@ -98,6 +120,46 @@
       text-align: center;
       padding: 0.5rem;
       font-size: 0.875rem;
+    }
+    .mobile-menu-toggle {
+      display: none;
+      cursor: pointer;
+      padding: 0.75rem;
+    }
+    .menu-icon {
+      font-size: 1.5rem;
+    }
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      max-height: 0;
+      background: white;
+      transition: all 0.3s ease-in-out;
+      opacity: 0;
+    }
+    .mobile-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 1rem;
+    }
+    .mobile-nav li a {
+      display: block;
+      padding: 0.5rem 0;
+      color: black;
+      text-decoration: none;
+      border-bottom: 1px solid #eee;
+    }
+    @media (max-width: 768px) {
+      .main-nav {
+        display: none;
+      }
+      .mobile-menu-toggle {
+        display: block;
+      }
+      .mobile-nav {
+        display: flex;
+      }
     }
     .header-wrapper {
       max-width: 1200px;
