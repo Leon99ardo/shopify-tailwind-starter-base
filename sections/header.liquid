@@ -1,4 +1,4 @@
-<header class="site-header">
+<header class="site-header animated-header">
   <!-- Announcement Bar -->
   <div class="announcement-bar">
     <p>Free shipping on orders over $100 | Use code: FREESHIP</p>
@@ -70,17 +70,119 @@
   </div>
 
   <style>
-    .site-header { background: white; position: fixed; width: 100%; top: 0; z-index: 100; border-bottom: 1px solid #eee; }
-    .announcement-bar { background: black; color: white; text-align: center; padding: 0.5rem; font-size: 0.875rem; }
-    .header-wrapper { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-    .site-logo .logo-link { font-size: 1.5rem; font-weight: bold; color: black; text-decoration: none; }
-    .main-nav { display: flex; gap: 2rem; }
-    .nav-link { color: black; text-decoration: none; position: relative; padding: 0.5rem; }
-    .nav-item:hover .dropdown { display: block; }
-    .dropdown { display: none; position: absolute; top: 100%; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 0.5rem; }
-    .dropdown-link { display: block; padding: 0.25rem 0.5rem; color: black; text-decoration: none; }
-    .dropdown-link:hover { background: #f7f7f7; }
-    .header-icons .icon { margin-left: 1rem; position: relative; text-decoration: none; color: black; font-size: 1.2rem; }
-    .cart-count { position: absolute; top: -6px; right: -10px; background: black; color: white; border-radius: 50%; padding: 0.1rem 0.4rem; font-size: 0.75rem; }
+    .site-header {
+      background: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #eee;
+      transition: all 0.3s ease-in-out;
+    }
+    .site-header.animated-header {
+      animation: fadeSlideDown 0.6s ease-out;
+    }
+    @keyframes fadeSlideDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .announcement-bar {
+      background: black;
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.875rem;
+    }
+    .header-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .site-logo .logo-link {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: black;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+    }
+    .site-logo .logo-link:hover {
+      transform: scale(1.05);
+    }
+    .main-nav {
+      display: flex;
+      gap: 2rem;
+    }
+    .nav-link {
+      color: black;
+      text-decoration: none;
+      position: relative;
+      padding: 0.5rem;
+      transition: color 0.3s ease;
+    }
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      width: 0%;
+      background-color: black;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+    .nav-item:hover .dropdown {
+      display: block;
+    }
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 0.5rem;
+      z-index: 10;
+    }
+    .dropdown-link {
+      display: block;
+      padding: 0.25rem 0.5rem;
+      color: black;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    .dropdown-link:hover {
+      background: #f7f7f7;
+    }
+    .header-icons .icon {
+      margin-left: 1rem;
+      position: relative;
+      text-decoration: none;
+      color: black;
+      font-size: 1.2rem;
+      transition: transform 0.2s ease;
+    }
+    .header-icons .icon:hover {
+      transform: scale(1.1);
+    }
+    .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -10px;
+      background: black;
+      color: white;
+      border-radius: 50%;
+      padding: 0.1rem 0.4rem;
+      font-size: 0.75rem;
+    }
   </style>
 </header>
